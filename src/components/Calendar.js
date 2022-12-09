@@ -15,7 +15,7 @@ const localizer = momentLocalizer(moment);
 export default function TrainingsCalendar() {
   const [events, setEvents] = useState([]);
 
-  useEffect(() => fetchData, []);
+  useEffect(() => fetchData(), []);
 
   const fetchData = () => {
     fetch("https://customerrest.herokuapp.com/gettrainings")

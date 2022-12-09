@@ -12,7 +12,7 @@ import AddTraining from "./AddTraining";
 export default function CustomerList() {
   const [customers, setCustomers] = useState([]);
 
-  useEffect(() => fetchData, []);
+  useEffect(() => fetchData(), []);
 
   const fetchData = () => {
     fetch(CUSTOMER_API_URL)

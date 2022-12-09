@@ -13,7 +13,7 @@ export default function GetTrainingsList() {
   const [trainings, setTrainings] = useState([]);
 
 
-  useEffect(() => fetchData, []);
+  useEffect(() => fetchData(), []);
 
   const fetchData = () => {
     fetch("https://customerrest.herokuapp.com/gettrainings")

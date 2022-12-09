@@ -2,7 +2,7 @@
   "name": "lopputyo",
   "version": "0.1.1",
   "homepage": "https://jounijoh.github.io/personaltrainer",
-  "private": false,
+  "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
