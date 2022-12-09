@@ -3,6 +3,7 @@ import moment from "moment";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
+// Start week from monday
 moment.locale('ko', {
     week: {
         dow: 1,
