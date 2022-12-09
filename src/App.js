@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import * as React from "react";
+import CustomerList from "./components/CustomerList";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ResponsiveAppBar from "./components/ResponsiveAppBar";
+import GetTrainingsList from "./components/GetTrainingsList";
+import TrainingsCalendar from "./components/Calendar";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+        <ResponsiveAppBar />
+        <Routes>
+          {["/", "/customers"].map((path) => (
+            <Route path={path} element={<CustomerList />} />
+          ))}
+          
+          <Route path="/trainings" element={<GetTrainingsList />} />
+          <Route path="/calendar" element={<TrainingsCalendar />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
