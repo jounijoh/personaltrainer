@@ -5,6 +5,8 @@ import { Button } from "@mui/material";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+
 
 export default function EditCustomer(props) {
   const [open, setOpen] = useState(false);
@@ -44,8 +46,10 @@ export default function EditCustomer(props) {
 
   return (
     <div>
-      <Button size="small" onClick={handleClickOpen}>
-        Edit
+      <Button>
+      <ModeEditOutlineOutlinedIcon size="small" onClick={handleClickOpen}>
+        
+      </ModeEditOutlineOutlinedIcon>
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Edit Customer</DialogTitle>

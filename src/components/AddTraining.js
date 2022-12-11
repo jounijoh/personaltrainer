@@ -9,6 +9,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import dayjs from "dayjs";
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 
 
 export default function AddTraining(props) {
@@ -37,8 +38,10 @@ export default function AddTraining(props) {
   
   return (
     <div>
-      <Button size="small" onClick={handleClickOpen}>
+      <Button>
+      <AddOutlinedIcon size="small" onClick={handleClickOpen}>
         Add training
+      </AddOutlinedIcon>
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>

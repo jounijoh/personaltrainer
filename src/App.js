@@ -5,6 +5,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
 import GetTrainingsList from "./components/GetTrainingsList";
 import TrainingsCalendar from "./components/Calendar";
+import Charts from "./components/Charts";
+
 
 function App() {
   return (
@@ -18,6 +20,7 @@ function App() {
           
           <Route path="/trainings" element={<GetTrainingsList />} />
           <Route path="/calendar" element={<TrainingsCalendar />} />
+          <Route path="/charts" element={<Charts />} />
         </Routes>
       </BrowserRouter>
     </div>

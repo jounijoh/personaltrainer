@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { AgGridReact } from "ag-grid-react"; // the AG Grid React Component
 import EditCustomer from "./EditCustomer";
 import Button from "@mui/material/Button";
@@ -7,7 +13,7 @@ import "ag-grid-community/styles/ag-theme-material.css";
 import { CUSTOMER_API_URL, TRAINING_API_URL } from "../constants";
 import AddCustomer from "./AddCustomer";
 import AddTraining from "./AddTraining";
-
+import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 
 export default function CustomerList() {
   const [customers, setCustomers] = useState([]);
@@ -32,23 +38,33 @@ export default function CustomerList() {
     { field: "city", sortable: true, filter: true },
     { field: "email", sortable: true, filter: true },
     { field: "phone", sortable: true, filter: true },
+
     {
-      width: 120,
-      cellRenderer: (params) => <EditCustomer data={params.data} updateCustomer={updateCustomer} />,
-    },
-    {
-      width: 130,
-      cellRenderer: (params) => <AddTraining data={params.data} addTraining={addTraining} />,
-    },
-    {
+      field: "Edit", width: 100,
       cellRenderer: (params) => (
-        <Button
-          size="small"
-          color="error"
-          onClick={() => deleteCustomer(params.data)}
-        >
-          Delete
+        <EditCustomer data={params.data} updateCustomer={updateCustomer} />
+      ),
+    },
+    {
+      field: "Delete",
+      width: 100,
+      cellRenderer: (params) => (
+        <Button>
+          <ClearOutlinedIcon
+            size="small"
+            color="error"
+            onClick={() => deleteCustomer(params.data)}
+          >
+            Delete
+          </ClearOutlinedIcon>
         </Button>
+      ),
+    },
+    {
+      field: "Add Training",
+      width: 120,
+      cellRenderer: (params) => (
+        <AddTraining data={params.data} addTraining={addTraining} />
       ),
     },
   ]);
@@ -72,6 +88,7 @@ export default function CustomerList() {
         .catch((err) => console.error(err));
     }
   };
+
   // ADD CUSTOMER
   const addCustomer = (customer) => {
     fetch(CUSTOMER_API_URL, {
@@ -85,21 +102,20 @@ export default function CustomerList() {
       })
       .catch((err) => console.log(err));
   };
+
   // UPDATE CUSTOMER
   const updateCustomer = (customer, url) => {
     fetch(url, {
-      method: 'PUT',
-      headers: {'Content-type': 'application/json'},
-      body: JSON.stringify(customer)
-  })
-  .then(response => {
-      if (response.ok)
-          fetchData();
-      else
-          alert("Something went wrong in addition");
-  })
-  .catch(err => console.log(err))
-  }
+      method: "PUT",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(customer),
+    })
+      .then((response) => {
+        if (response.ok) fetchData();
+        else alert("Something went wrong in addition");
+      })
+      .catch((err) => console.log(err));
+  };
 
   // ADD TRAINING TO A CUSTOMER
   const addTraining = (training) => {
@@ -113,57 +129,75 @@ export default function CustomerList() {
         else alert("Something went wrong in addition");
       })
       .catch((err) => console.log(err));
-  }
+  };
+
   // EXPORT TO CSV
   const gridRef = useRef();
   const defaultColDef = useMemo(() => {
     return {
       editable: true,
       resizable: true,
-      minWidth: 100,
-      flex: 1,
+      flex: 1
+      
     };
   }, []);
 
   const popupParent = useMemo(() => {
     return document.body;
   }, []);
-  
+
   const onBtnExport = useCallback(() => {
     const params = {
-      columnKeys: ['firstname', 'lastname', 'streetaddress', 'postcode', 'city', 'email', 'phone']
-  };
+      columnKeys: [
+        "firstname",
+        "lastname",
+        "streetaddress",
+        "postcode",
+        "city",
+        "email",
+        "phone",
+      ],
+    };
     gridRef.current.api.exportDataAsCsv(params);
   }, []);
 
- /**  const onBtnUpdate = useCallback(() => {
-    const params = {
-      columnKeys: ['firstname', 'lastname', 'streetaddress', 'postcode', 'city', 'email', 'phone']
-  };
-    console.log(gridRef.current.api.getDataAsCsv(params));
-  }, []);*/
-
+  // Search functions
+  const onFilterTextBoxChanged = useCallback(() => {
+    gridRef.current.api.setQuickFilter(
+      document.getElementById("filter-text-box").value
+    );
+  }, []);
 
   return (
     <>
-    <AddCustomer addCustomer={addCustomer} />
-    <div
-      className="ag-theme-material"
-      style={{ height: 600, width: "90%", margin: "auto" }}
-    >
-      <AgGridReact
-        ref={gridRef}
-        rowData={customers}
-        columnDefs={columnDefs}
-        pagination={true}
-        paginationPageSize={10}
-        defaultColDef={defaultColDef}
-        suppressExcelExport={true}
-        popupParent={popupParent}
-        
-      />      
-    </div>
-    <button onClick={onBtnExport}>Export data</button> 
+    <div>
+      <div className="rowC">
+        <input
+          type="text"
+          id="filter-text-box"
+          placeholder="Filter..."
+          onInput={onFilterTextBoxChanged}
+        />
+        <AddCustomer addCustomer={addCustomer} />
+      </div>
+      <div
+        className="ag-theme-material"
+        style={{ height: 600, width: "90%", margin: "auto" }}
+      >
+        <AgGridReact
+          ref={gridRef}
+          rowData={customers}
+          columnDefs={columnDefs}
+          pagination={true}
+          paginationPageSize={10}
+          defaultColDef={defaultColDef}
+          suppressExcelExport={true}
+          popupParent={popupParent}
+          cacheQuickFilter={true}
+        />
+      </div>
+      <button onClick={onBtnExport}>Export customer data</button>
+      </div>
     </>
   );
 }

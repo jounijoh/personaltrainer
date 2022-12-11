@@ -5,6 +5,7 @@ import { Button } from "@mui/material";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 
 export default function AddCustomer(props) {
   const [open, setOpen] = useState(false);
@@ -35,7 +36,9 @@ export default function AddCustomer(props) {
   return (
     <div>
       <Button size="small" variant="contained" onClick={handleClickOpen}>
-        Add customer
+        <PersonAddAlt1Icon>
+        </PersonAddAlt1Icon>
+        &nbsp; Add Customer
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>New Customer</DialogTitle>

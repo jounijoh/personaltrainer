@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react"; // the AG Grid React Component
-
+import { TRAINING_API_URL } from "../constants";
 import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS, always needed
 import "ag-grid-community/styles/ag-theme-material.css";
-import { Button } from "@mui/material";
+import Button from "@mui/material/Button";
+import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import dateFormatter from "./DateFormatter";
 
 
@@ -32,17 +33,19 @@ export default function GetTrainingsList() {
     },
     { field: "duration", sortable: true, filter: true },
     { field: "activity", sortable: true, filter: true },
-    { field: "customer.firstname", sortable: true, filter: true,},
-    { field: "customer.lastname", sortable: true, filter: true,
+    { headerName: "Firstname", field: "customer.firstname", sortable: true, filter: true,},
+    { headerName: "Lastname", field: "customer.lastname", sortable: true, filter: true,
       },
       {
         cellRenderer: (params) => (
-          <Button
+          <Button>
+          <ClearOutlinedIcon
             size="small"
             color="error"
             onClick={() => deleteTraining(params.data)}
           >
             Delete
+          </ClearOutlinedIcon>
           </Button>
         ),
       },
@@ -56,7 +59,7 @@ export default function GetTrainingsList() {
         "Are you sure you want to delete " + data.activity + " training on " +
         dateFormatter(data.date))
     ) {
-      fetch(data.links[0].href, { method: "DELETE" })
+      fetch(TRAINING_API_URL + "/" + data.id, { method: "DELETE" })
         .then((response) => {
           if (response.ok) fetchData();
           else alert("Something went wront in deletion");
